@@ -27,7 +27,7 @@ what_week_text = "Неделя: "
 if is_odd_week:
     what_week_text += "четная\n"
 else:
-    what_week_text += "не четная\n"
+    what_week_text += "нечетная\n"
 
 
 def get_day_of_week():
@@ -38,10 +38,17 @@ week_day = get_day_of_week()
 
 
 def get_schedule(offset):
-    if week_day % 2 == 0:
-        return even_week_list[week_day + offset]
+    safe_offset = offset
+
+    if week_day + offset >= 6:
+        safe_offset = 0
     else:
-        return odd_week_list[week_day + offset]
+        safe_offset = week_day + offset
+
+    if week_day % 2 == 0:
+        return even_week_list[safe_offset]
+    else:
+        return odd_week_list[safe_offset]
 
 
 @bot.message_handler(commands=['з'])
